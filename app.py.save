@@ -1,0 +1,78 @@
+from flask import Flask, request, jsonify
+import os
+from dotenv import load_dotenv
+from openai import OpenAI
+
+# .env ファイルから APIキーを読み込む
+load_dotenv()
+client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
+
+app = Flask(__name__)
+
+# クリニック案内情報の読み込み
+with open("clinic_info.txt", "r", encoding="utf-8") as f:
+    clinic_info = f.read()
+
+@app.route("/chat", methods=["POST"])
+def chat():
+    data = request.get_json()
+    user_input = data.get("message", "")
+
+    messages = [
+        {"role": "system", "content": 
+"以下のクリニック情報の範囲内でのみ回答してください。不明な場合は『分かりかねます』と返答してください。"},
+        {"role": "system", "content": clinic_info},
+        {"role": "user", "content": user_input}
+    ]
+
+    try:
+        response = client.chat.completions.create(
+            model="gpt-4o",
+            messages=messages,
+            temperature=0.3
+        )
+        repfrom 
+flask import Flask, request, 
+jsonify
+import openai
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
+openai.api_key = os.getenv("OPENAI_API_KEY")
+
+app = Flask(__name__)
+
+with open("clinic_info.txt", "r", encoding="utf-8") as f:
+    clinic_info = f.read()
+
+@app.route("/chat", methods=["POST"])
+def chat():
+    data = request.get_json()
+    user_input = data.get("message", "")
+
+    messages = [
+        {"role": "system", "content": 
+"以下のクリニック情報に基づいてのみ回答してください。不明な場合は『分かりかねます』と返答してください。"},
+        {"role": "system", "content": clinic_info},
+        {"role": "user", "content": user_input}
+    ]
+
+    try:
+        response = openai.ChatCompletion.create(
+            model="gpt-4o",
+            messages=messages,
+            temperature=0.3
+        )
+        reply = response.choices[0].message["content"]
+        print(f"[DEBUG] ユーザー: {user_input}")
+        print(f"[DEBUG] 応答: {reply}")
+        return jsonify({"reply": reply})
+    except Exception as e:
+        print(f"[ERROR] {e}")
+        return jsonify({"error": str(e)}), 500
+
+if __name__ == "__main__":
+    print("[INFO] Flaskサーバーを起動します...")
+    app.run(debug=True)
+

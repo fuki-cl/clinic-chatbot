@@ -1,0 +1,24 @@
+[INFO] Flaskサーバーを起動します...
+ * Serving Flask app 'app'
+ * Debug mode: off
+[31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5001
+ * Running on http://192.168.0.11:5001
+[33mPress CTRL+C to quit[0m
+127.0.0.1 - - [03/Jun/2025 00:11:15] "OPTIONS /chat HTTP/1.1" 200 -
+127.0.0.1 - - [03/Jun/2025 00:11:18] "POST /chat HTTP/1.1" 200 -
+127.0.0.1 - - [03/Jun/2025 00:11:27] "OPTIONS /chat HTTP/1.1" 200 -
+127.0.0.1 - - [03/Jun/2025 00:11:29] "POST /chat HTTP/1.1" 200 -
+127.0.0.1 - - [03/Jun/2025 00:25:52] "OPTIONS /chat HTTP/1.1" 200 -
+127.0.0.1 - - [03/Jun/2025 00:25:54] "POST /chat HTTP/1.1" 200 -
+127.0.0.1 - - [03/Jun/2025 07:12:05] "OPTIONS /chat HTTP/1.1" 200 -
+127.0.0.1 - - [03/Jun/2025 07:12:11] "POST /chat HTTP/1.1" 200 -
+127.0.0.1 - - [03/Jun/2025 07:13:45] "OPTIONS /chat HTTP/1.1" 200 -
+127.0.0.1 - - [03/Jun/2025 07:13:48] "POST /chat HTTP/1.1" 200 -
+127.0.0.1 - - [03/Jun/2025 07:14:00] "OPTIONS /chat HTTP/1.1" 200 -
+127.0.0.1 - - [03/Jun/2025 07:14:01] "POST /chat HTTP/1.1" 200 -
+127.0.0.1 - - [03/Jun/2025 07:14:12] "OPTIONS /chat HTTP/1.1" 200 -
+127.0.0.1 - - [03/Jun/2025 07:14:14] "POST /chat HTTP/1.1" 200 -
+127.0.0.1 - - [03/Jun/2025 07:14:18] "OPTIONS /chat HTTP/1.1" 200 -
+127.0.0.1 - - [03/Jun/2025 07:14:19] "POST /chat HTTP/1.1" 200 -
