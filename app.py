@@ -4,54 +4,51 @@ from flask_cors import CORS
 from openai import OpenAI
 from dotenv import load_dotenv
 
-# .env ファイルからAPIキーを読み込み
+# .envファイルから環境変数を読み込む
 load_dotenv()
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
 
 # OpenAIクライアントの初期化
 client = OpenAI(api_key=OPENAI_API_KEY)
 
-# Flaskアプリの設定
+# Flaskアプリの作成
 app = Flask(__name__)
 CORS(app)
 
-# clinic_info.txt からFAQ読み込み
+# クリニック情報を読み込む関数
 def load_clinic_info():
     try:
         with open("clinic_info.txt", "r", encoding="utf-8") as file:
             return file.read()
     except FileNotFoundError:
-        return "クリニックの情報が見つかりませんでした。"
+        return "クリニック情報が見つかりませんでした。"
 
-clinic_info = load_clinic_info()
+clinic_info_text = load_clinic_info()
 
+# チャット用のエンドポイント
 @app.route("/chat", methods=["POST"])
 def chat():
-    data = request.get_json()
-    user_message = data.get("message", "")
-    
+    user_message = request.json.get("message", "").strip()
     if not user_message:
-        return jsonify({"error": "メッセージが空です。"}), 400
+        return jsonify({"reply": "メッセージが空です。"})
 
     try:
+        # OpenAI API へ問い合わせ
         response = client.chat.completions.create(
             model="gpt-3.5-turbo",
             messages=[
                 {"role": "system", "content": 
-f"あなたは医療事務スタッフとして、患者さんの質問に対して「{clinic_info}」の情報に基づいて、やさしく丁寧に答えてください。分からない場合は無理に答えず、診療時間内の受診を案内してください。"},
-                {"role": "user", "content": user_message}
-            ],
-            temperature=0.5,
-            max_tokens=500
+"あなたはクリニックの受付担当AIです。必要に応じて受診を勧めてください。"},
+                {"role": "user", "content": f"{clinic_info_text}\n\n質問: 
+{user_message}"}
+            ]
         )
-        bot_reply = response.choices[0].message.content.strip()
-        return jsonify({"reply": bot_reply})
-
+        reply = response.choices[0].message.content.strip()
+        return jsonify({"reply": reply})
     except Exception as e:
-        return jsonify({"error": str(e)}), 500
+        return jsonify({"reply": f"エラーが発生しました: {str(e)}"})
 
-# エントリーポイント
+# アプリ起動設定
 if __name__ == "__main__":
     print("[INFO] Flaskサーバーを起動します...")
     app.run(host="0.0.0.0", port=5001, debug=False)
-
