@@ -33,9 +33,7 @@ def chat():
     messages = [
         {"role": "system", "content": 
 "あなたは『みどりのふきたクリニック』の受付AIです。診断は行わず、適切な受診案内を行ってください。"},
-        {"role": "user", "content": f"{clinic_info_text}\n\n質問: 
-{user_message}"}
-    ]
+{"role": "user", "content": f"{clinic_info_text}\n\n質問: {user_message}"}
 
     try:
         response = client.chat.completions.create(
