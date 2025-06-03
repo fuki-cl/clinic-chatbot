@@ -49,7 +49,7 @@ def chat():
             temperature=0.5
         )
         answer = response.choices[0].message.content
-        return jsonify({"response": answer})
+        return jsonify({"reply": answer})
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
